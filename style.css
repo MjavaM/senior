@@ -1,0 +1,431 @@
+/* Import Google Fonts - Load Roboto font with different weights */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Global Reset - Basic styling for all elements */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body Styling - Main document styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    height: 100vh;
+    margin: 0;
+    color: #333333;
+}
+
+/* Dark Theme Override - Key color changes for dark mode */
+[data-theme="dark"] {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .sidebar {
+    background-color: #1a1a1a;
+}
+
+[data-theme="dark"] .top-nav {
+    background-color: #004fa3;
+}
+
+[data-theme="dark"] .nav-link {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .chat-box {
+    background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .chat-box-footer {
+    background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .chat-box-footer input[type="text"] {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .chat-box-content {
+    background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .message {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #004fa3;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-logo {
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 40px;
+}
+
+.nav-links {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* App Container - Main layout container */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    padding-top: 60px; /* Space for the navbar */
+}
+
+/* Sidebar Styles - Left panel for saved chats */
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    height: calc(100vh - 60px);
+    position: fixed;
+    left: 0;
+    top: 60px;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar Header - Top section of sidebar */
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Sidebar Header Text */
+.sidebar-header h3 {
+    color: #004fa3;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Sidebar Chat List */
+.sidebar-chat-list {
+    padding: 10px 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Individual Saved Chat - Updated to include delete icon */
+.saved-chat {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: #333; /* Changed from lightblue for better readability */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Dark theme override for saved chats */
+[data-theme="dark"] .saved-chat {
+    color: #e0e0e0;
+}
+
+.saved-chat:hover {
+    background-color: rgba(0, 79, 163, 0.1); /* Changed from navy for better UX */
+}
+
+[data-theme="dark"] .saved-chat:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Chat name text */
+.chat-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Delete icon */
+.delete-chat-icon {
+    color: #d32f2f;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.delete-chat-icon:hover {
+    background-color: rgba(211, 47, 47, 0.1);
+    color: #f44336;
+}
+
+/* Dark theme override for delete icon */
+[data-theme="dark"] .delete-chat-icon {
+    color: #f44336;
+}
+
+[data-theme="dark"] .delete-chat-icon:hover {
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+/* New Chat Button Container */
+.new-chat-btn-container {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* New Chat Button */
+.new-chat-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #004fa3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.new-chat-btn:hover {
+    background-color: #003b7a;
+}
+
+/* Main Content Area - Right side content */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    height: calc(100vh - 60px);
+    display: flex;
+    padding: 0;
+}
+
+/* Chat Box - Main chat interface */
+.chat-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Clear Chat Button */
+.clear-chat-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+  
+.clear-chat-btn:hover {
+    background-color: darkred;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+}
+
+/* Theme Toggle Icons - Sun/moon icons */
+.light-icon, .dark-icon {
+    display: none; /* Hide both icons by default */
+}
+
+/* Show correct icon based on theme */
+[data-theme="light"] .light-icon {
+    display: block; /* Show sun icon in light mode */
+}
+
+[data-theme="dark"] .dark-icon {
+    display: block; /* Show moon icon in dark mode */
+}
+
+/* Chat Box Content - Container for messages */
+.chat-box-content {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+    background-color: #f0f2f5;
+}
+
+/* Message Styles - For both sent and received messages */
+.chat-box-content .message,
+.chat-box-content .response {
+    margin-bottom: 20px;
+    padding: 12px 18px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+    position: relative;
+}
+
+/* User Message Style */
+.chat-box-content .message {
+    background-color: #f0f2f5;
+    color: #333333;
+    float: right;
+    clear: both;
+    border-bottom-right-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Bot Response Style */
+.chat-box-content .response {
+    background-color: #004fa3;
+    color: #ffffff;
+    float: left;
+    clear: both;
+    border-bottom-left-radius: 4px;
+}
+
+/* Loading Indicator Style */
+.chat-box-content .loading {
+    background-color: #e6f0ff;
+    color: #004fa3;
+}
+
+/* Error Message Style */
+.chat-box-content .error,
+.chat-box-content .response.error {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* System Message Style */
+.chat-box-content .system {
+    background-color: #f5f5f5;
+    color: #757575;
+    font-style: italic;
+    max-width: 100%;
+    margin: 10px auto;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* Chat Box Footer - Input area */
+.chat-box-footer {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+}
+
+/* Chat Input Field */
+.chat-box-footer input[type="text"] {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    background-color: #ffffff;
+    color: #333333;
+}
+
+/* Chat Input Focus Style */
+.chat-box-footer input[type="text"]:focus {
+    border-color: #004fa3;
+    box-shadow: 0 0 0 2px rgba(0, 79, 163, 0.1);
+}
+
+/* Send Button */
+.chat-box-footer button {
+    margin-left: 10px;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    background-color: #004fa3;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Send Button Hover Effects */
+.chat-box-footer button:hover {
+    background-color: #37a9d3;
+}
+
+/* Chat Message Container */
+.chat-box-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive Styles - Adjust layout for smaller screens */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide links on small screens */
+    }
+    
+    .sidebar {
+        left: -250px; /* Hide sidebar by default on mobile */
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.open {
+        left: 0; /* Show sidebar when open class is added */
+    }
+    
+    .main-content {
+        margin-left: 0; /* Full width on mobile */
+    }
+    
+    .chat-box-content .message,
+    .chat-box-content .response {
+        max-width: 90%;
+    }
+}
