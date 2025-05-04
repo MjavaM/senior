@@ -6,7 +6,14 @@ const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
 const html = document.documentElement;
 const newChatBtn = document.querySelector('.new-chat-btn');
 
-const SERVER_URL = 'http://localhost:3000'; 
+//
+
+const SERVER_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"
+    : "https://senior-nbsj.onrender.com"; // replace with actual Render link
+
+
 const savedTheme = localStorage.getItem('theme') || 'light';
 html.setAttribute('data-theme', savedTheme);
 
