@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AskUni — UoB Assistant</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar glass">
+    <div class="topbar__left">
+      <span class="logo">🎓</span>
+      <strong>AskUni</strong><span class="muted"> &nbsp;— University of Bahrain · IT</span>
+    </div>
+    <div class="topbar__right">
+      <div class="row">
+        <label>Theme</label>
+        <select id="themeSelect">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <label>BG</label>
+        <select id="bgMode">
+          <option value="none">None</option>
+          <option value="color">Color</option>
+          <option value="image">Image</option>
+        </select>
+      </div>
+
+      <div class="row" id="bgColorRow" style="display:none;">
+        <label>Color</label>
+        <input id="bgColor" type="color" value="#0b0f14" />
+      </div>
+
+      <div class="row" id="bgUrlRow" style="display:none;">
+        <label>Image URL</label>
+        <input id="bgUrl" type="text" placeholder="https://…" />
+      </div>
+
+      <button id="applyBg" class="btn">Apply</button>
+      <button id="clearBg" class="btn">Clear</button>
+    </div>
+  </header>
+
+  <div id="app">
+    <aside class="sidebar glass">
+      <section class="user-card" id="userCard">
+        <div class="avatar" id="userAvatar">G</div>
+        <div class="user-meta">
+          <div class="user-name" id="userName">Guest</div>
+          <div class="user-id" id="userId">Not signed in</div>
+        </div>
+        <div class="user-actions">
+          <button id="loginBtn" class="btn primary">Login</button>
+          <button id="logoutBtn" class="btn" hidden>Logout</button>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h3>Quick Links</h3>
+        <div class="icons">
+          <a href="https://sis.uob.edu.bh" target="_blank" aria-label="UoB SIS">🔗</a>
+          <a href="https://ucs.uob.edu.bh" target="_blank" aria-label="UCS">🏛️</a>
+          <a href="https://www.uob.edu.bh" target="_blank" aria-label="UoB Website">🏠</a>
+        </div>
+      </section>
+
+      <section class="history">
+        <div class="history__header">
+          <h3>Chat History</h3>
+          <button id="newChatBtn" class="btn">New chat</button>
+        </div>
+        <ul id="historyList" class="history__list"></ul>
+      </section>
+
+      <section class="status">
+        <div>Server: <span id="serverStatus">checking…</span></div>
+        <div>Model: <span id="modelName">assistant</span></div>
+      </section>
+    </aside>
+
+    <main class="main glass">
+      <div class="chat" id="chat">
+        <div class="chat__empty" id="emptyState">
+          <h2>Welcome to AskUni</h2>
+          <p>Ask about courses, registration, syllabi, labs, and more.</p>
+          <p class="hint">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd> to send.</p>
+        </div>
+      </div>
+
+      <footer class="composer">
+        <div class="tools">
+          <label class="file">
+            <input type="file" id="fileInput" />
+            <span title="Upload file">📎</span>
+          </label>
+          <button id="micBtn" class="icon-btn" title="Click to start/stop or hold on touch">🎤</button>
+        </div>
+        <textarea id="messageInput" rows="1" placeholder="Type your question…" disabled></textarea>
+        <button id="sendBtn" class="btn primary" disabled>Send</button>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Auth Modal -->
+  <dialog id="loginModal">
+    <form method="dialog" class="modal glass" id="loginForm">
+      <h2 id="authTitle">Create account</h2>
+      <p class="sub" id="authSub">First time? Use your UoB student email (e.g. 202012345@stu.uob.edu.bh).</p>
+
+      <div style="display:flex;gap:8px;margin:6px 0 12px;">
+        <button type="button" id="tabRegister" class="btn primary">Create account</button>
+        <button type="button" id="tabLogin" class="btn">Sign in</button>
+      </div>
+
+      <div class="grid" id="registerFields">
+        <label>First name <input type="text" id="firstName" autocomplete="given-name" required /></label>
+        <label>Last name <input type="text" id="lastName" autocomplete="family-name" required /></label>
+        <label class="full">UoB Email <input type="email" id="email" autocomplete="email" required placeholder="202012345@stu.uob.edu.bh" /></label>
+        <label>Password <input type="password" id="password" autocomplete="new-password" required /></label>
+        <label>Confirm <input type="password" id="password2" autocomplete="new-password" required /></label>
+      </div>
+
+      <div class="grid" id="loginFields" style="display:none;">
+        <label class="full">UoB Email <input type="email" id="loginEmail" autocomplete="email" /></label>
+        <label class="full">Password <input type="password" id="loginPassword" autocomplete="current-password" /></label>
+      </div>
+
+      <menu>
+        <button value="cancel" class="btn">Cancel</button>
+        <button id="confirmAuth" value="default" class="btn primary">Continue</button>
+      </menu>
+      <p class="foot-note">Passwords are stored as secure bcrypt hashes.</p>
+    </form>
+  </dialog>
+
+  <script src="./script.js"></script>
+</body>
+</html>
