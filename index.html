@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AskUni — University of Bahrain · IT</title>
+
+  <!-- Favicon updated to use AskUni logo -->
+  <link rel="icon" type="image/png" href="askuni-logo.png">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    /* tiny inline to avoid FOUC; full styles in style.css */
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:#0b0f14;
+      color:#e8eef5;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Noto Sans',sans-serif;
+    }
+    .nojs{display:none}
+
+    /* Logo sizing for navbar */
+    .brand-logo{
+      height:48px;
+      width:auto;
+      margin-right:10px;
+      vertical-align:middle;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar / Appearance -->
+  <header class="navbar">
+    <div class="brand">
+      <!-- New AskUni logo instead of 🎓 -->
+      <img src="askuni-logo.png" alt="AskUni logo" class="brand-logo">
+      <div class="brand-txt">
+        <strong>AskUni</strong>
+        <span>— University of Bahrain · IT</span>
+      </div>
+    </div>
+
+    <div class="grow"></div>
+
+    <div class="appearance">
+      <label class="appearance-item">
+        <span class="appearance-label">Theme</span>
+        <select id="themeSelect">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="system">System</option>
+        </select>
+      </label>
+
+      <label class="appearance-item">
+        <span class="appearance-label">BG</span>
+        <select id="bgMode">
+          <option value="none">None</option>
+          <option value="color">Color</option>
+        </select>
+      </label>
+
+      <div id="bgColorRow" class="appearance-item">
+        <input id="bgColor" type="color" value="#0b0f14" title="Background Color" />
+      </div>
+
+      <button id="applyBg" class="icon-btn" title="Apply Background">
+        <span class="btn-icon">✅</span>
+        <span class="btn-text">Apply</span>
+      </button>
+      <button id="clearBg" class="icon-btn" title="Clear Background">
+        <span class="btn-icon">❌</span>
+        <span class="btn-text">Clear</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <main class="page">
+    <!-- Sidebar - FIXED: Added sidebar-content wrapper -->
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <section class="usercard" id="userCard">
+          <div class="avatar" id="userAvatar">G</div>
+          <div class="meta">
+            <div class="name" id="userName">Guest</div>
+            <div class="sub" id="userId">Not signed in</div>
+          </div>
+          <div class="actions">
+            <button id="loginBtn" class="pill">
+              <span class="btn-icon">🔐</span>
+              <span class="btn-text">Login</span>
+            </button>
+            <button id="logoutBtn" class="pill danger" hidden>
+              <span class="btn-icon">🚪</span>
+              <span class="btn-text">Logout</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="quicklinks">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="https://sis.uob.edu.bh" target="_blank" rel="noopener" title="Student Information System">
+              <span class="ico">🧾</span>
+              <span class="link-text">SIS</span>
+            </a></li>
+            <li><a href="https://ucs.uob.edu.bh" target="_blank" rel="noopener" title="UCS Portal">
+              <span class="ico">🔑</span>
+              <span class="link-text">UCS</span>
+            </a></li>
+            <li><a href="https://www.uob.edu.bh" target="_blank" rel="noopener" title="University Website">
+              <span class="ico">🏛️</span>
+              <span class="link-text">UoB</span>
+            </a></li>
+            <li><a href="https://blackboard.uob.edu.bh" target="_blank" rel="noopener" title="Blackboard LMS">
+              <span class="ico">🎓</span>
+              <span class="link-text">Blackboard</span>
+            </a></li>
+          </ul>
+        </section>
+
+        <section class="history">
+          <div class="row-justify">
+            <h4>Chat History</h4>
+            <button id="newChatBtn" class="icon-btn" title="New chat">
+              <span class="btn-icon">➕</span>
+              <span class="btn-text">New</span>
+            </button>
+          </div>
+          <ul id="historyList" class="history-list"></ul>
+        </section>
+
+        <section class="status">
+          <div>Server: <span id="serverStatus">offline</span></div>
+          <div>Model: <span id="modelName">—</span></div>
+        </section>
+      </div>
+    </aside>
+
+    <!-- Chat Column -->
+    <section class="chatcol">
+      <div id="chat" class="chat">
+        <div class="chat__empty" id="emptyState">
+          <!-- Chat starts here with no large gap -->
+        </div>
+      </div>
+
+      <div class="composer">
+        <div class="left">
+          <button id="micBtn" class="icon-btn" title="Hold/click to talk">
+            <span class="btn-icon">🎤</span>
+            <span class="btn-text">Mic</span>
+          </button>
+          <label class="icon-btn" title="Attach a file">
+            <span class="btn-icon">📎</span>
+            <span class="btn-text">File</span>
+            <input id="fileInput" type="file" hidden />
+          </label>
+        </div>
+        <input id="messageInput" class="prompt" placeholder="Type your question…" />
+        <button id="sendBtn" class="pill primary">
+          <span class="btn-icon">➤</span>
+          <span class="btn-text">Send</span>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Auth modal -->
+  <dialog id="loginModal">
+    <form method="dialog" class="auth">
+      <header class="auth__head">
+        <div>
+          <h3 id="authTitle">Create account</h3>
+          <div id="authSub" class="sub">Use your UoB student email (e.g. 202012345@stu.uob.edu.bh)</div>
+        </div>
+        <div class="tabs">
+          <button type="button" id="tabRegister" class="pill small primary">Register</button>
+          <button type="button" id="tabLogin" class="pill small">Login</button>
+          <button type="button" id="cancelAuth" class="icon-btn" title="Cancel">
+            <span class="btn-icon">✕</span>
+            <span class="btn-text">Cancel</span>
+          </button>
+        </div>
+      </header>
+
+      <div id="registerFields" class="form grid">
+        <label>First name<input id="firstName" /></label>
+        <label>Last name<input id="lastName" /></label>
+        <label class="colspan">UoB Email<input id="email" placeholder="2020xxxxxx@stu.uob.edu.bh" /></label>
+        <label>Password<input id="password" type="password" /></label>
+        <label>Confirm<input id="password2" type="password" /></label>
+      </div>
+
+      <div id="loginFields" class="form grid" style="display:none">
+        <label class="colspan">UoB Email<input id="loginEmail" placeholder="2020xxxxxx@stu.uob.edu.bh" /></label>
+        <label class="colspan">Password<input id="loginPassword" type="password" /></label>
+        <div class="colspan" style="text-align:right;margin-top:-6px">
+          <button id="forgotLink" type="button" class="link">Forgot password?</button>
+        </div>
+      </div>
+
+      <div id="forgotFields" class="form grid" style="display:none">
+        <label class="colspan">UoB Email<input id="resetEmail" placeholder="2020xxxxxx@stu.uob.edu.bh" /></label>
+        <label>New password<input id="resetPass" type="password" /></label>
+        <label>Confirm new password<input id="resetPass2" type="password" /></label>
+        <div class="colspan" style="text-align:right">
+          <button id="doReset" type="button" class="pill">Reset password</button>
+        </div>
+      </div>
+
+      <footer class="auth__foot">
+        <button id="confirmAuth" class="pill primary" value="ok">Continue</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+  <noscript><div class="nojs">Please enable JavaScript.</div></noscript>
+</body>
+</html>
